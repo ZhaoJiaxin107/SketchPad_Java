@@ -3,10 +3,13 @@ package DrawCanvas.command;
 import java.awt.Point;
 
 import DrawCanvas.panel.Drawing;
+import DrawCanvas.shape.Circle;
+import DrawCanvas.shape.Curve;
 import DrawCanvas.shape.Hexagon;
 import DrawCanvas.shape.Oval;
 import DrawCanvas.shape.Rectangle;
 import DrawCanvas.shape.Segment;
+import DrawCanvas.shape.Square;
 
 
 public class DrawShape extends Command{
@@ -62,6 +65,39 @@ public class DrawShape extends Command{
 			}
 			((Hexagon)(dwg.list.get(dwg.list.size()-1))).setBeginPoint(beginPoint);
 			((Hexagon)(dwg.list.get(dwg.list.size()-1))).setDragPoint(p);
+		   }
+		
+		if((choose.equals("Circle"))){
+			first++;
+			if(first==1){
+				Circle circle=new Circle(dwg.color);
+				beginPoint=p;
+				dwg.add(circle);
+			}
+			((Circle)(dwg.list.get(dwg.list.size()-1))).setBeginPoint(beginPoint);
+			((Circle)(dwg.list.get(dwg.list.size()-1))).setDragPoint(p);
+		   }
+		
+		if((choose.equals("Square"))){
+			first++;
+			if(first==1){
+				Square square=new Square(dwg.color);
+				beginPoint=p;
+				dwg.add(square);
+			}
+			((Square)(dwg.list.get(dwg.list.size()-1))).setBeginPoint(beginPoint);
+			((Square)(dwg.list.get(dwg.list.size()-1))).setDragPoint(p);
+		   }
+		
+		if((choose.equals("Curve"))){
+			first++;
+			if(first==1){
+				Curve curve=new Curve(dwg.color);
+				beginPoint=p;
+				dwg.add(curve);
+			}
+			((Curve)(dwg.list.get(dwg.list.size()-1))).setBeginPoint(beginPoint);
+			((Curve)(dwg.list.get(dwg.list.size()-1))).setDragPoint(p);
 		   }
 	}
 	

@@ -79,6 +79,10 @@ public class Main extends JApplet{
 			JButton ovalButton = new JButton("Oval");
 			JButton lineButton = new JButton("Line");
 			JButton hexaButton = new JButton("Hexagon");
+			JButton circleButton = new JButton("Circle");
+			JButton squareButton = new JButton("Square");
+			JButton curveButton = new JButton("Curve");
+			
 			JButton moveButton = new JButton("Move");
 			JButton deleteButton = new JButton("Delete");
 			JButton frontButton = new JButton("Front");
@@ -87,6 +91,7 @@ public class Main extends JApplet{
 			JButton copyButton = new JButton("Copy");
 			JButton emptyButton = new JButton("Empty");
 			JButton reshapeButton = new JButton("Reshape");
+			
 			JButton blackButton = new JButton("Black");
 			JButton redButton = new JButton("Red");
 			JButton greenButton = new JButton("Green");
@@ -100,6 +105,10 @@ public class Main extends JApplet{
 			ovalButton.addActionListener(new OvalButtonListener());
 			lineButton.addActionListener(new LineButtonListener());
 			hexaButton.addActionListener(new HexaButtonListener());
+			circleButton.addActionListener(new CircleButtonListener());
+			squareButton.addActionListener(new SquareButtonListener());
+			curveButton.addActionListener(new CurveButtonListener());
+			
 			moveButton.addActionListener(new MoveButtonListener());
 			deleteButton.addActionListener(new DeleteButtonListener());
 			frontButton.addActionListener(new FrontButtonListener());
@@ -108,6 +117,8 @@ public class Main extends JApplet{
 			copyButton.addActionListener(new CopyButtonListener());
 			emptyButton.addActionListener(new EmptyButtonListener());
 			reshapeButton.addActionListener(new ReshapeButtonListener());
+			
+			
 			blackButton.addActionListener(new BlackButtonListener());
 			redButton.addActionListener(new RedButtonListener());
 			greenButton.addActionListener(new GreenButtonListener());
@@ -125,11 +136,16 @@ public class Main extends JApplet{
 			ovalButton.setBackground(Color.pink);
 			lineButton.setBackground(Color.pink);
 			hexaButton.setBackground(Color.pink);
+			circleButton.setBackground(Color.pink);
+			squareButton.setBackground(Color.pink);
+			curveButton.setBackground(Color.pink);
 			shapePanel.add(rectButton);
 			shapePanel.add(ovalButton);
 			shapePanel.add(lineButton);
 			shapePanel.add(hexaButton);
-			
+			shapePanel.add(circleButton);
+			shapePanel.add(squareButton);
+			shapePanel.add(curveButton);
 			// Edit Panel
 			JPanel editPanel = new JPanel(); // holds buttons for editing operations
 			JLabel editLabel = new JLabel("Edit the shape with operations:");
@@ -244,7 +260,31 @@ public class Main extends JApplet{
 				repaint();
 			}
 		}
-
+		
+		private class CircleButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent event) {
+				Information.setText("Draw  a  circle.");
+				cmd=new DrawShape("Circle");
+				repaint();
+			}
+		}
+		
+		private class SquareButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent event) {
+				Information.setText("Draw  a  square.");
+				cmd=new DrawShape("Square");
+				repaint();
+			}
+		}
+		
+		private class CurveButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent event) {
+				Information.setText("Draw  a  Curve.");
+				cmd=new DrawShape("Curve");
+				repaint();
+			}
+		}
+		
 		// What to do when moveButton is pressed.
 		private class MoveButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent event) {

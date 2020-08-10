@@ -2,14 +2,16 @@ package DrawCanvas.shape;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.QuadCurve2D;
 
-public class Segment extends Shape{
-
+public class Curve extends Shape{
 	private Point begin=null;
 	private Point dragPoint=null;
 	private Point centerPoint=null;
 	public Point[] point=new Point[4];
+	
 	
 	public void setBeginPoint(Point begin){
 		this.begin=begin;	
@@ -19,7 +21,7 @@ public class Segment extends Shape{
 		this.dragPoint=dragPoint;
 	}
 	
-	public Segment(Color c) {
+	public Curve(Color c) {
 		super(c);
 	}
 	
@@ -58,9 +60,13 @@ public class Segment extends Shape{
 	}
 	@Override
 	public void drawShape(Graphics g) {
-		g.drawLine(begin.x, begin.y, dragPoint.x, dragPoint.y);
+		Graphics2D g2 = (Graphics2D)g;
+		QuadCurve2D.Double quadCurve1 = new QuadCurve2D.Double(begin.x,begin.y,120,100,dragPoint.x, dragPoint.y);
+		g2.draw(quadCurve1);
+		QuadCurve2D.Double quadCurve2 = new QuadCurve2D.Double(begin.x,begin.y,120,100,dragPoint.x, dragPoint.y);
+		g2.draw(quadCurve2);
 	}
-
+ 
 	@Override
 	public boolean containsPoint(Point p) {
 		int xMax=Math.max(begin.x,dragPoint.x);
@@ -108,5 +114,4 @@ public class Segment extends Shape{
 		}
 		
 	}
-
 }
