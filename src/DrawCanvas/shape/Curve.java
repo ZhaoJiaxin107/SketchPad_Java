@@ -65,6 +65,7 @@ public class Curve extends Shape{
 		g2.draw(quadCurve1);
 		QuadCurve2D.Double quadCurve2 = new QuadCurve2D.Double(begin.x,begin.y,120,100,dragPoint.x, dragPoint.y);
 		g2.draw(quadCurve2);
+		
 	}
  
 	@Override

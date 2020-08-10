@@ -32,6 +32,7 @@ import DrawCanvas.command.ExchangeCmd;
 import DrawCanvas.command.FrontCmd;
 import DrawCanvas.command.MoveCmd;
 import DrawCanvas.command.ReshapeCmd;
+import DrawCanvas.command.UndoCmd;
 
 
 public class Main extends JApplet{
@@ -91,6 +92,8 @@ public class Main extends JApplet{
 			JButton copyButton = new JButton("Copy");
 			JButton emptyButton = new JButton("Empty");
 			JButton reshapeButton = new JButton("Reshape");
+			JButton undoButton = new JButton("Undo");
+			//JButton redoButton = new JButton("Redo");
 			
 			JButton blackButton = new JButton("Black");
 			JButton redButton = new JButton("Red");
@@ -117,7 +120,8 @@ public class Main extends JApplet{
 			copyButton.addActionListener(new CopyButtonListener());
 			emptyButton.addActionListener(new EmptyButtonListener());
 			reshapeButton.addActionListener(new ReshapeButtonListener());
-			
+			undoButton.addActionListener(new UndoButtonListener());
+			//redoButton.addActionListener(new RedoButtonListener());
 			
 			blackButton.addActionListener(new BlackButtonListener());
 			redButton.addActionListener(new RedButtonListener());
@@ -148,7 +152,7 @@ public class Main extends JApplet{
 			shapePanel.add(curveButton);
 			// Edit Panel
 			JPanel editPanel = new JPanel(); // holds buttons for editing operations
-			JLabel editLabel = new JLabel("Edit the shape with operations:");
+			JLabel editLabel = new JLabel("Operations:");
 			editPanel.setLayout(new FlowLayout());
 			editPanel.add(editLabel);
 			moveButton.setBackground(Color.lightGray);
@@ -159,6 +163,8 @@ public class Main extends JApplet{
 			copyButton.setBackground(Color.lightGray);
 			emptyButton.setBackground(Color.lightGray);
 			reshapeButton.setBackground(Color.lightGray);
+			undoButton.setBackground(Color.lightGray);
+			//redoButton.setBackground(Color.lightGray);
 			editPanel.add(moveButton);
 			editPanel.add(deleteButton);
 			editPanel.add(frontButton);
@@ -167,6 +173,8 @@ public class Main extends JApplet{
 			editPanel.add(copyButton);
 			editPanel.add(emptyButton);
 			editPanel.add(reshapeButton);
+			editPanel.add(undoButton);
+			//editPanel.add(redoButton);
 			
 			// The color panel 
 			JPanel colorPanel = new JPanel();
@@ -175,9 +183,6 @@ public class Main extends JApplet{
 			colorPanel.add(colorLabel);
 			colorBox = new ColorIndicator();
 			colorBox.show(initialColor);
-			/*redButton.setBackground(Color.yellow);
-			greenButton.setBackground(Color.yellow);
-			blueButton.setBackground(Color.yellow);*/
 			colorPanel.add(colorBox);
 			colorPanel.add(blackButton);
 			colorPanel.add(redButton);
@@ -353,6 +358,22 @@ public class Main extends JApplet{
 				repaint();
 			}
 		}
+		
+		private class UndoButtonListener implements ActionListener{
+			public void actionPerformed(ActionEvent event){
+				Information.setText("Undo operation");
+				cmd=new UndoCmd(); 
+				repaint();
+			}
+		}
+		
+		/*private class RedoButtonListener implements ActionListener{
+			public void actionPerformed(ActionEvent event){
+				Information.setText("Redo operation");
+				cmd=new RedoCmd(); 
+				repaint();
+			}
+		}*/
 		
 		// What to do when blackButton is pressed.
 		private class BlackButtonListener implements ActionListener {
