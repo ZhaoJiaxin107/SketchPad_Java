@@ -60,8 +60,7 @@ public class Hexagon extends Shape{
 		polygon.addPoint(dragPoint.x,dragPoint.y);
 		polygon.addPoint(begin.x,dragPoint.y);
 		polygon.addPoint(begin.x-(dragPoint.x-begin.x)/2,(begin.y+dragPoint.y)/2);
-		g.fillPolygon(polygon);
-		
+		g.drawPolygon(polygon);
 	}
 
 	@Override
@@ -92,8 +91,13 @@ public class Hexagon extends Shape{
 
 	@Override
 	public void reshape(Point p1, Point p2) {
-		
-		
-	}
+		for(int i=0;i<=3;i++){
+			if(p1.x>=point[i].x-10&&p1.x<=point[i].x+10&&p1.y>=point[i].y-10&&p1.y<=point[i].y+10){
+				begin=new Point(point[(i+2)%4].x,point[(i+2)%4].y);
+				dragPoint=new Point(p2.x,p2.y);
+				break;
+			}
+		}
+	  }
 
 }

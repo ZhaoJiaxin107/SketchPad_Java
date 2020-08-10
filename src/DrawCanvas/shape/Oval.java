@@ -35,7 +35,7 @@ public class Oval extends Shape{
 
 	@Override
 	public void drawShape(Graphics g) {
-		g.fillOval(begin.x, begin.y, dragPoint.x-begin.x, dragPoint.y-begin.y);
+		g.drawOval(begin.x, begin.y, dragPoint.x-begin.x, dragPoint.y-begin.y);
 		
 	}
 

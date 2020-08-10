@@ -40,7 +40,7 @@ public class Segment extends Shape{
 			// Compute m, the slope of the line containing the segment.
 			double m = ((double) (y1 - y2)) / ((double) (x1 - x2));
 
-			// Compute mperp, the slope of the line perpendicular to the
+			//The slope of the line perpendicular to the
 			// segment.
 			double mperp = -1.0 / m;
 
@@ -58,7 +58,7 @@ public class Segment extends Shape{
 	}
 	@Override
 	public void drawShape(Graphics g) {
-		// TODO Auto-generated method stub
+		g.drawLine(begin.x, begin.y, dragPoint.x, dragPoint.y);
 		
 	}
 

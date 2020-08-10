@@ -45,7 +45,7 @@ public class Rectangle extends Shape{
 	}
 
 	public void drawShape(Graphics g) {
-		g.fillRect(begin.x, begin.y, dragPoint.x-begin.x, dragPoint.y-begin.y);
+		g.drawRect(begin.x, begin.y, dragPoint.x-begin.x, dragPoint.y-begin.y);
 	}
 	
 	public Point getCenter() {
