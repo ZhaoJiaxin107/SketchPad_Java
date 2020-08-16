@@ -35,6 +35,7 @@ import DrawCanvas.command.ReshapeCmd;
 import DrawCanvas.command.UndoCmd;
 
 
+
 public class Main extends JApplet{
 	private static final long serialVersionUID = 1L;
 	int i=0;
@@ -252,8 +253,8 @@ public class Main extends JApplet{
 		// What to do when lineButton is pressed.
 		private class LineButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent event) {
-				Information.setText("Draw  a  segment.");
-				cmd=new DrawShape("Segment");
+				Information.setText("Draw  a  line.");
+				cmd=new DrawShape("Line");
 				repaint();
 			}
 		}
@@ -466,9 +467,9 @@ public class Main extends JApplet{
 				addMouseMotionListener(this);
 			}
 
-			public void paint(Graphics page) {
-				super.paint(page); // execute the paint method of JPanel
-				dwg.draw(page); // have the drawing draw itself
+			public void paint(Graphics g) {
+				super.paint(g); // execute the paint method of JPanel
+				dwg.draw(g); // have the drawing draw itself
 			}
 
 			// When the mouse is clicked, call the executeClick method of the
@@ -492,7 +493,7 @@ public class Main extends JApplet{
 				repaint();
 			}
 
-			// We don't care about the other mouse events.
+			//  other mouse events.
 			public void mouseReleased(MouseEvent event) {
 			}
 

@@ -10,6 +10,7 @@ public class ColorCmd extends Command{
 	public Shape g=null;
 	public void executeClick(Point p, Drawing dwg) {
 		 g=dwg.getFrontmostContainer(p);
+		 //System.out.println(g);
 		if(g!=null)
 		g.setColor(dwg.color);	
 	}

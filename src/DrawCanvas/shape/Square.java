@@ -45,7 +45,7 @@ public class Square extends Shape{
 	}
 
 	public void drawShape(Graphics g) {
-		g.drawRect(begin.x, begin.y, dragPoint.x-begin.x, dragPoint.x-begin.x);
+		g.fillRect(begin.x, begin.y, dragPoint.x-begin.x, dragPoint.x-begin.x);
 	}
 	
 	public Point getCenter() {

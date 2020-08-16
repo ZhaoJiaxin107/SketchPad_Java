@@ -36,7 +36,7 @@ public class Circle extends Shape{
 
 	@Override
 	public void drawShape(Graphics g) {
-		g.drawOval(begin.x, begin.y, dragPoint.x-begin.x, dragPoint.x-begin.x);
+		g.fillOval(begin.x, begin.y, dragPoint.x-begin.x, dragPoint.x-begin.x);
 		
 	}
 

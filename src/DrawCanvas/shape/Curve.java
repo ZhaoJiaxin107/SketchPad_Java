@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.awt.geom.QuadCurve2D;
 
 public class Curve extends Shape{
@@ -12,6 +13,16 @@ public class Curve extends Shape{
 	private Point centerPoint=null;
 	public Point[] point=new Point[4];
 	
+	private static boolean pointInCurve(Point p, int left, int top, int width,int height) {
+		double a = width / 2.0; // half of the width
+		double b = height / 2.0; // half of the height
+		double centerx = left + a; // x-axis of the center
+		double centery = top + b; // y-axis of the center
+		double x = p.x - centerx; // horizontal distance between p and center
+		double y = p.y - centery; // vertical distance between p and center
+
+		return Math.pow(x / a, 2) + Math.pow(y / b, 2) <= 1;
+	}
 	
 	public void setBeginPoint(Point begin){
 		this.begin=begin;	
@@ -20,62 +31,21 @@ public class Curve extends Shape{
 	public void setDragPoint(Point dragPoint){
 		this.dragPoint=dragPoint;
 	}
-	
+
 	public Curve(Color c) {
 		super(c);
 	}
-	
-	private static boolean almostContainsPoint(Point p, int left, int top,
-			int right, int bottom, double tolerance) {
-		return p.x >= left - tolerance && p.y >= top - tolerance
-				&& p.x <= right + tolerance && p.y <= bottom + tolerance;
-	}
 
-	private static double distanceToPoint(Point p, int x1, int y1, int x2, int y2) {
-		if (x1 == x2) // vertical segment
-			return (double) (Math.abs(p.x - x1)); // yes, use horizontal
-		// distance
-		else if (y1 == y2) // horizontal segment
-			return (double) (Math.abs(p.y - y1)); // yes, use vertical distance
-		else {
-
-			// Compute m, the slope of the line containing the segment.
-			double m = ((double) (y1 - y2)) / ((double) (x1 - x2));
-
-			//The slope of the line perpendicular to the
-			// segment.
-			double mperp = -1.0 / m;
-
-			// Compute the (x, y) intersection of the line containing the
-			// segment and the line that is perpendicular to the segment and
-			// that
-			// contains Point p.
-			double x = (((double) y1) - ((double) p.y) - (m * x1) + (mperp * p.x))
-					/ (mperp - m);
-			double y = m * (x - x1) + y1;
-
-			// Return the distance between Point p and (x, y).
-			return Math.sqrt(Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2));
-		}
-	}
 	@Override
 	public void drawShape(Graphics g) {
-		Graphics2D g2 = (Graphics2D)g;
-		QuadCurve2D.Double quadCurve1 = new QuadCurve2D.Double(begin.x,begin.y,120,100,dragPoint.x, dragPoint.y);
-		g2.draw(quadCurve1);
-		QuadCurve2D.Double quadCurve2 = new QuadCurve2D.Double(begin.x,begin.y,120,100,dragPoint.x, dragPoint.y);
-		g2.draw(quadCurve2);
+		//g.drawOval(begin.x, begin.y, dragPoint.x-begin.x, dragPoint.y-begin.y);
+		g.drawArc(begin.x, begin.y, dragPoint.x-begin.x, dragPoint.y-begin.y,30,60);
 		
 	}
- 
+
 	@Override
 	public boolean containsPoint(Point p) {
-		int xMax=Math.max(begin.x,dragPoint.x);
-		int yMax=Math.max(begin.y,dragPoint.y);
-		int xMin=Math.min(begin.x,dragPoint.x);
-		int yMin=Math.min(begin.y,dragPoint.y);
-		return (distanceToPoint(p,begin.x, begin.y, dragPoint.x, dragPoint.y)<5)
-		&& almostContainsPoint(p,xMin,yMin,xMax,yMax,3);
+		return pointInCurve(p,begin.x, begin.y, dragPoint.x-begin.x, dragPoint.y-begin.y);
 	}
 
 	@Override
@@ -86,7 +56,7 @@ public class Curve extends Shape{
 
 	@Override
 	public Point getCenter() {
-		centerPoint=new Point((begin.x+dragPoint.x)/2,(begin.y+dragPoint.y)/2);
+		centerPoint=new Point(dragPoint.x/2+begin.x/2,dragPoint.y/2+begin.y/2);
 		return centerPoint;
 	}
 
@@ -97,7 +67,7 @@ public class Curve extends Shape{
 		point[2]= new Point(dragPoint.x,dragPoint.y);
 		point[3]= new Point(dragPoint.x,begin.y);
 		for(int i=0;i<=3;i++){
-			if(p.x>=point[i].x-10&&p.x<=point[i].x+10&&p.y>=point[i].y-10&&p.y<=point[i].y+10){
+			if(p.x>=point[i].x-100&&p.x<=point[i].x+100&&p.y>=point[i].y-100&&p.y<=point[i].y+100){
 			    return true;
 			}
 		}
@@ -107,7 +77,7 @@ public class Curve extends Shape{
 	@Override
 	public void reshape(Point p1, Point p2) {
 		for(int i=0;i<=3;i++){
-			if(p1.x>=point[i].x-10&&p1.x<=point[i].x+10&&p1.y>=point[i].y-10&&p1.y<=point[i].y+10){
+			if(p1.x>=point[i].x-100&&p1.x<=point[i].x+100&&p1.y>=point[i].y-100&&p1.y<=point[i].y+100){
 				begin=new Point(point[(i+2)%4].x,point[(i+2)%4].y);
 				dragPoint=new Point(p2.x,p2.y);
 				break;
@@ -115,4 +85,5 @@ public class Curve extends Shape{
 		}
 		
 	}
+	
 }

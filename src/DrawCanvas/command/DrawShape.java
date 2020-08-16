@@ -45,7 +45,7 @@ public class DrawShape extends Command{
 			((Oval)(dwg.list.get(dwg.list.size()-1))).setDragPoint(p);
 		   }
 		
-		if((choose.equals("Segment"))){
+		if((choose.equals("Line"))){
 			first++;
 			if(first==1){
 				Segment segment=new Segment(dwg.color);
@@ -80,6 +80,7 @@ public class DrawShape extends Command{
 		
 		if((choose.equals("Square"))){
 			first++;
+			System.out.println("-------------");
 			if(first==1){
 				Square square=new Square(dwg.color);
 				beginPoint=p;
@@ -91,9 +92,10 @@ public class DrawShape extends Command{
 		
 		if((choose.equals("Curve"))){
 			first++;
+			//System.out.println(p);
 			if(first==1){
 				Curve curve=new Curve(dwg.color);
-				beginPoint=p;
+				beginPoint=p;   
 				dwg.add(curve);
 			}
 			((Curve)(dwg.list.get(dwg.list.size()-1))).setBeginPoint(beginPoint);

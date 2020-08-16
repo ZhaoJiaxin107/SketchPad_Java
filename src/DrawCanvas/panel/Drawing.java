@@ -21,8 +21,10 @@ public class Drawing {
 		int i = 0;
 		for(i = list.size()-1; i>=0;i--) {
 			shape = list.get(i);
-			if(shape.containsPoint(p))
+			if(shape.containsPoint(p)) {
+				System.out.println(shape);
 				break;
+			}
 		}
 		if(i==-1)
 			shape = null;
@@ -31,10 +33,10 @@ public class Drawing {
 	
 	public void add(Shape g){
 		list.add(g);
+		System.out.println(list);
 	}
 	
 	public void draw(Graphics g) {
-		// Your code goes here
 		for(Shape p:list)
 			p.draw(g);
 	}
