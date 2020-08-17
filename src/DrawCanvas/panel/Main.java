@@ -1,5 +1,6 @@
 package DrawCanvas.panel;
 
+import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -7,20 +8,26 @@ import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JApplet;
 import javax.swing.JButton;
@@ -48,7 +55,7 @@ import DrawCanvas.command.UndoCmd;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
-public class Main extends JApplet{
+public class Main extends JApplet   {
 	private static final long serialVersionUID = 1L;
 	int i=0;
 
@@ -60,7 +67,9 @@ public class Main extends JApplet{
 	private ColorIndicator colorBox; // a GUI component to show the current
 	private JTextField Information=new JTextField(30);								// default color
 
-	FileDialog openPicture, savePicture;
+	BufferedImage bi;
+	Graphics gg = null;
+	Image tempImage = null;
 	
 	// A ColorIndicator shows what the current color is.
 		private class ColorIndicator extends JPanel {
@@ -85,11 +94,14 @@ public class Main extends JApplet{
 		public void init() {
 			cmd = new Command(); // all methods in Command are empty
 			dwg = new Drawing(initialColor); // make an empty drawing
-
+			
+			bi = new BufferedImage(1024,800,BufferedImage.TYPE_INT_RGB);
+			
 			// The drawing will appear in a white CanvasPanel.
 			CanvasPanel canvasPanel = new CanvasPanel();
 			canvasPanel.setBackground(Color.white);
-			
+			gg  = bi.getGraphics();
+
 			// Make JButton objects for all the command buttons.
 			JButton rectButton = new JButton("Rectangle");
 			JButton ovalButton = new JButton("Oval");
@@ -110,6 +122,7 @@ public class Main extends JApplet{
 			JButton undoButton = new JButton("Undo");
 			JButton redoButton = new JButton("Redo");
 			JButton saveButton = new JButton("Save");
+			JButton openButton = new JButton("Open");
 			
 			JButton blackButton = new JButton("Black");
 			JButton redButton = new JButton("Red");
@@ -183,6 +196,7 @@ public class Main extends JApplet{
 			undoButton.setBackground(Color.lightGray);
 			redoButton.setBackground(Color.lightGray);
 			saveButton.setBackground(Color.lightGray);
+			openButton.setBackground(Color.lightGray);
 			editPanel.add(moveButton);
 			editPanel.add(deleteButton);
 			editPanel.add(frontButton);
@@ -194,6 +208,7 @@ public class Main extends JApplet{
 			editPanel.add(undoButton);
 			editPanel.add(redoButton);
 			editPanel.add(saveButton);
+			editPanel.add(openButton);
 			// The color panel 
 			JPanel colorPanel = new JPanel();
 			JLabel colorLabel = new JLabel("Colors:");
@@ -246,60 +261,75 @@ public class Main extends JApplet{
 			{
 					public void actionPerformed(ActionEvent e)
 					{
-						printPanelToJPG(canvasPanel);
-					}
+						 Frame f = new Frame("File Dialog Demo!");  
+				            f.setVisible(false);  
+				            f.setSize(100, 100);  
+				  
+				            FileDialog fd = new FileDialog(f, "File Dialog", FileDialog.SAVE);  
+				            fd.setVisible(true);  
+				            try  
+				            {  
+				                if (fd.getFile() != null)  
+				                {  
+				                    String pathStr = fd.getDirectory();  
+				  
+				                    pathStr = pathStr.replace("\\", "\\\\");  
+				                    String path = pathStr + fd.getFile();  
+				  
+				                    ImageIO.write(bi, "JPEG", new File(path));  
+				                }  
+				  
+				            }  
+				            catch (IOException e2)  
+				            {  
+				                e2.printStackTrace();  
+				            }  
+				        }  
 			});
+			
+			openButton.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					Frame f = new Frame();  
+		            f.setVisible(false);  
+		            f.setSize(100, 100);  
+		            FileDialog fd1 = new FileDialog(f, "File Dialog", FileDialog.LOAD);  
+		            fd1.setVisible(true);  
+		            try  
+		            {  
+		                File f2 = new File(fd1.getDirectory(), fd1.getFile());  
+		                FileInputStream readfile = new FileInputStream(f2);  
+		                tempImage = ImageIO.read(new File(fd1.getDirectory(), fd1  
+		                        .getFile()));  
+		  
+		                CanvasPanel canvasPanel = new CanvasPanel();  
+		                canvasPanel.setBounds(400, 300, 100, 100);  
+		                add(canvasPanel);  
+		  
+		            }  
+		            catch (IOException e1)  
+		            {  
+		                e1.printStackTrace();  
+		            }  
+				}
+			
+			});
+			
+			
 			
 		}
 		
+	
+		
 		public void paint(Graphics g) {
 			super.paint(g); // make all the GUI components paint themselves
+			  
+			//g.drawImage(bi,0,0,this);
 		}
 		
 		
-		public void printPanelToJPG(CanvasPanel canvasPanel)
-		{
-			int width = this.getWidth();
-			int height = this.getHeight();
-			BufferedImage bi = new BufferedImage(width, height,
-					BufferedImage.TYPE_3BYTE_BGR);
-			Graphics2D g2d = (Graphics2D) bi.createGraphics();
-			g2d = (Graphics2D) bi.getGraphics();
-			try
-			{
-				JFileChooser chooser = new JFileChooser(".//");
-				chooser.setAcceptAllFileFilterUsed(false);
-				chooser.setSelectedFile(new File("1.jpg"));
-				int status = chooser.showSaveDialog(canvasPanel);
-				if (status == JFileChooser.APPROVE_OPTION)
-				{
-					File saveFile = chooser.getSelectedFile();
-					if (saveFile.exists())
-					{
-						String prompt = "The file "
-								+ saveFile.getName()
-								+ " already exists. Do you want to replace the existing file";
-						int ret = JOptionPane.showConfirmDialog(canvasPanel, prompt,
-								"Warning", JOptionPane.YES_NO_OPTION);
-						if (ret == JOptionPane.NO_OPTION)
-						{
-							return;
-						}
-					}
-					saveFile = new File(saveFile.getAbsoluteFile() + ".jpg");
-					FileOutputStream fos = new FileOutputStream(saveFile);
-					JPEGImageEncoder jpegEncoder = JPEGCodec.createJPEGEncoder(fos);
-					jpegEncoder.encode(bi);
-					fos.flush();
-					fos.close();
-				}
-			}
-			catch (IOException ex)
-			{
-				JOptionPane.showMessageDialog(canvasPanel, "IO Error, operation failed\n"
-						+ ex.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
-			}
-		}
+	
 
 		
 		//What to do when rectButton is pressed.
@@ -511,7 +541,7 @@ public class Main extends JApplet{
 				dwg.color=Color.pink;
 				cmd=new ColorCmd();
 				repaint();
-			}
+			}  
 		}
 		// What to do when redButton is pressed.
 		private class GrayButtonListener implements ActionListener {
@@ -575,7 +605,36 @@ public class Main extends JApplet{
 
 			public void mouseMoved(MouseEvent event) {
 			}
+			
+			 class fileDialog extends Frame  
+			    {  
+			  
+			        private static final long serialVersionUID = 1L;  
+			  
+			        fileDialog(String title)  
+			        {  
+			            super(title);  
+			            MyWindowAdapter adapter = new MyWindowAdapter(this);  
+			            addWindowListener(adapter);  
+			        }  
+			    }  
+			  
+			    class MyWindowAdapter extends WindowAdapter  
+			    {  
+			        fileDialog sf;  
+			  
+			        public MyWindowAdapter(fileDialog sfr)  
+			        {  
+			            this.sf = sfr;  
+			        }  
+			  
+			        public void windowClosing(WindowEvent we)  
+			        {  
+			            sf.setVisible(false);  
+			        }  
+			    }  
 		}
-	
+
+
 
 }
