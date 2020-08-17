@@ -4,22 +4,32 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FileDialog;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JApplet;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 
 import DrawCanvas.command.BackCmd;
 import DrawCanvas.command.ColorCmd;
@@ -35,19 +45,22 @@ import DrawCanvas.command.RedoCmd;
 import DrawCanvas.command.ReshapeCmd;
 import DrawCanvas.command.UndoCmd;
 
-
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 public class Main extends JApplet{
 	private static final long serialVersionUID = 1L;
 	int i=0;
 
-	private final int APPLET_WIDTH = 700, APPLET_HEIGHT = 500;
+	private final int APPLET_WIDTH = 1200, APPLET_HEIGHT = 800;
 	private final Color initialColor = Color.BLACK; // default color starts as black
 
 	private Command cmd; // the command being executed
 	private Drawing dwg; // the drawing: shapes in order
 	private ColorIndicator colorBox; // a GUI component to show the current
 	private JTextField Information=new JTextField(30);								// default color
+
+	FileDialog openPicture, savePicture;
 	
 	// A ColorIndicator shows what the current color is.
 		private class ColorIndicator extends JPanel {
@@ -96,6 +109,7 @@ public class Main extends JApplet{
 			JButton reshapeButton = new JButton("Reshape");
 			JButton undoButton = new JButton("Undo");
 			JButton redoButton = new JButton("Redo");
+			JButton saveButton = new JButton("Save");
 			
 			JButton blackButton = new JButton("Black");
 			JButton redButton = new JButton("Red");
@@ -105,6 +119,7 @@ public class Main extends JApplet{
 			JButton pinkButton = new JButton("Pink");
 			JButton grayButton = new JButton("Gray");
 			
+		
 			// Add listeners for all the command buttons.
 			rectButton.addActionListener(new RectButtonListener());
 			ovalButton.addActionListener(new OvalButtonListener());
@@ -167,6 +182,7 @@ public class Main extends JApplet{
 			reshapeButton.setBackground(Color.lightGray);
 			undoButton.setBackground(Color.lightGray);
 			redoButton.setBackground(Color.lightGray);
+			saveButton.setBackground(Color.lightGray);
 			editPanel.add(moveButton);
 			editPanel.add(deleteButton);
 			editPanel.add(frontButton);
@@ -177,7 +193,7 @@ public class Main extends JApplet{
 			editPanel.add(reshapeButton);
 			editPanel.add(undoButton);
 			editPanel.add(redoButton);
-			
+			editPanel.add(saveButton);
 			// The color panel 
 			JPanel colorPanel = new JPanel();
 			JLabel colorLabel = new JLabel("Colors:");
@@ -226,12 +242,65 @@ public class Main extends JApplet{
 			cp.add(canvasPanel, BorderLayout.CENTER);
 
 			setSize(APPLET_WIDTH, APPLET_HEIGHT);
+			saveButton.addActionListener(new ActionListener()
+			{
+					public void actionPerformed(ActionEvent e)
+					{
+						printPanelToJPG(canvasPanel);
+					}
+			});
 			
 		}
 		
 		public void paint(Graphics g) {
 			super.paint(g); // make all the GUI components paint themselves
 		}
+		
+		
+		public void printPanelToJPG(CanvasPanel canvasPanel)
+		{
+			int width = this.getWidth();
+			int height = this.getHeight();
+			BufferedImage bi = new BufferedImage(width, height,
+					BufferedImage.TYPE_3BYTE_BGR);
+			Graphics2D g2d = (Graphics2D) bi.createGraphics();
+			g2d = (Graphics2D) bi.getGraphics();
+			try
+			{
+				JFileChooser chooser = new JFileChooser(".//");
+				chooser.setAcceptAllFileFilterUsed(false);
+				chooser.setSelectedFile(new File("1.jpg"));
+				int status = chooser.showSaveDialog(canvasPanel);
+				if (status == JFileChooser.APPROVE_OPTION)
+				{
+					File saveFile = chooser.getSelectedFile();
+					if (saveFile.exists())
+					{
+						String prompt = "The file "
+								+ saveFile.getName()
+								+ " already exists. Do you want to replace the existing file";
+						int ret = JOptionPane.showConfirmDialog(canvasPanel, prompt,
+								"Warning", JOptionPane.YES_NO_OPTION);
+						if (ret == JOptionPane.NO_OPTION)
+						{
+							return;
+						}
+					}
+					saveFile = new File(saveFile.getAbsoluteFile() + ".jpg");
+					FileOutputStream fos = new FileOutputStream(saveFile);
+					JPEGImageEncoder jpegEncoder = JPEGCodec.createJPEGEncoder(fos);
+					jpegEncoder.encode(bi);
+					fos.flush();
+					fos.close();
+				}
+			}
+			catch (IOException ex)
+			{
+				JOptionPane.showMessageDialog(canvasPanel, "IO Error, operation failed\n"
+						+ ex.toString(), "Error", JOptionPane.PLAIN_MESSAGE);
+			}
+		}
+
 		
 		//What to do when rectButton is pressed.
 		private class RectButtonListener implements ActionListener {

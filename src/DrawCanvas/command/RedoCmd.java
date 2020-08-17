@@ -16,9 +16,6 @@ public class RedoCmd extends Command{
 			//System.out.println(dwg.list);
 			undo.undolist.remove(g);	
 		}
-		
 	}
-	
-	
 }
 	
