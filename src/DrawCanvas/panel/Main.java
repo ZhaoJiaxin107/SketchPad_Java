@@ -31,6 +31,7 @@ import DrawCanvas.command.EmptyCmd;
 import DrawCanvas.command.ExchangeCmd;
 import DrawCanvas.command.FrontCmd;
 import DrawCanvas.command.MoveCmd;
+import DrawCanvas.command.RedoCmd;
 import DrawCanvas.command.ReshapeCmd;
 import DrawCanvas.command.UndoCmd;
 
@@ -94,7 +95,7 @@ public class Main extends JApplet{
 			JButton emptyButton = new JButton("Empty");
 			JButton reshapeButton = new JButton("Reshape");
 			JButton undoButton = new JButton("Undo");
-			//JButton redoButton = new JButton("Redo");
+			JButton redoButton = new JButton("Redo");
 			
 			JButton blackButton = new JButton("Black");
 			JButton redButton = new JButton("Red");
@@ -122,7 +123,7 @@ public class Main extends JApplet{
 			emptyButton.addActionListener(new EmptyButtonListener());
 			reshapeButton.addActionListener(new ReshapeButtonListener());
 			undoButton.addActionListener(new UndoButtonListener());
-			//redoButton.addActionListener(new RedoButtonListener());
+			redoButton.addActionListener(new RedoButtonListener());
 			
 			blackButton.addActionListener(new BlackButtonListener());
 			redButton.addActionListener(new RedButtonListener());
@@ -165,7 +166,7 @@ public class Main extends JApplet{
 			emptyButton.setBackground(Color.lightGray);
 			reshapeButton.setBackground(Color.lightGray);
 			undoButton.setBackground(Color.lightGray);
-			//redoButton.setBackground(Color.lightGray);
+			redoButton.setBackground(Color.lightGray);
 			editPanel.add(moveButton);
 			editPanel.add(deleteButton);
 			editPanel.add(frontButton);
@@ -175,7 +176,7 @@ public class Main extends JApplet{
 			editPanel.add(emptyButton);
 			editPanel.add(reshapeButton);
 			editPanel.add(undoButton);
-			//editPanel.add(redoButton);
+			editPanel.add(redoButton);
 			
 			// The color panel 
 			JPanel colorPanel = new JPanel();
@@ -368,13 +369,13 @@ public class Main extends JApplet{
 			}
 		}
 		
-		/*private class RedoButtonListener implements ActionListener{
+		private class RedoButtonListener implements ActionListener{
 			public void actionPerformed(ActionEvent event){
 				Information.setText("Redo operation");
 				cmd=new RedoCmd(); 
 				repaint();
 			}
-		}*/
+		}
 		
 		// What to do when blackButton is pressed.
 		private class BlackButtonListener implements ActionListener {

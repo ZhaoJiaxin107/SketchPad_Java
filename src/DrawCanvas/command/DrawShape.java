@@ -80,7 +80,6 @@ public class DrawShape extends Command{
 		
 		if((choose.equals("Square"))){
 			first++;
-			System.out.println("-------------");
 			if(first==1){
 				Square square=new Square(dwg.color);
 				beginPoint=p;

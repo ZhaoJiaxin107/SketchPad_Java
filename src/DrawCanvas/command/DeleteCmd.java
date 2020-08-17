@@ -12,8 +12,6 @@ public class DeleteCmd extends Command{
 		//System.out.println(g);
 		if(g!=null) {
 		dwg.list.remove(g);
-		}else {
-			
 		}
 	}
 }
