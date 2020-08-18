@@ -261,7 +261,7 @@ public class Main extends JApplet   {
 			{
 					public void actionPerformed(ActionEvent e)
 					{
-						 Frame f = new Frame("File Dialog Demo!");  
+						 Frame f = new fileDialog("File Dialog Demo!");  
 				            f.setVisible(false);  
 				            f.setSize(100, 100);  
 				  
@@ -291,7 +291,7 @@ public class Main extends JApplet   {
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					Frame f = new Frame();  
+					Frame f = new fileDialog("Open");  
 		            f.setVisible(false);  
 		            f.setSize(100, 100);  
 		            FileDialog fd1 = new FileDialog(f, "File Dialog", FileDialog.LOAD);  
@@ -607,35 +607,35 @@ public class Main extends JApplet   {
 			public void mouseMoved(MouseEvent event) {
 			}
 			
-			 class fileDialog extends Frame  
-			    {  
-			  
-			        private static final long serialVersionUID = 1L;  
-			  
-			        fileDialog(String title)  
-			        {  
-			            super(title);  
-			            MyWindowAdapter adapter = new MyWindowAdapter(this);  
-			            addWindowListener(adapter);  
-			        }  
-			    }  
-			  
-			    class MyWindowAdapter extends WindowAdapter  
-			    {  
-			        fileDialog sf;  
-			  
-			        public MyWindowAdapter(fileDialog sfr)  
-			        {  
-			            this.sf = sfr;  
-			        }  
-			  
-			        public void windowClosing(WindowEvent we)  
-			        {  
-			            sf.setVisible(false);  
-			        }  
-			    }  
+		
 		}
-
+		 class fileDialog extends Frame  
+		    {  
+		  
+		        private static final long serialVersionUID = 1L;  
+		  
+		        fileDialog(String title)  
+		        {  
+		            super(title);  
+		            MyWindowAdapter adapter = new MyWindowAdapter(this);  
+		            addWindowListener(adapter);  
+		        }  
+		    }  
+		  
+		    class MyWindowAdapter extends WindowAdapter  
+		    {  
+		        fileDialog sf;  
+		  
+		        public MyWindowAdapter(fileDialog sfr)  
+		        {  
+		            this.sf = sfr;  
+		        }  
+		  
+		        public void windowClosing(WindowEvent we)  
+		        {  
+		            sf.setVisible(false);  
+		        }  
+		    }  
 
 
 }
