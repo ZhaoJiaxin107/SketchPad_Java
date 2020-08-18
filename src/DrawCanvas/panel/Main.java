@@ -68,7 +68,7 @@ public class Main extends JApplet   {
 	private JTextField Information=new JTextField(30);								// default color
 
 	BufferedImage bi;
-	Graphics gg = null;
+	Graphics g = null;
 	Image tempImage = null;
 	
 	// A ColorIndicator shows what the current color is.
@@ -100,7 +100,7 @@ public class Main extends JApplet   {
 			// The drawing will appear in a white CanvasPanel.
 			CanvasPanel canvasPanel = new CanvasPanel();
 			canvasPanel.setBackground(Color.white);
-			gg  = bi.getGraphics();
+			g  = bi.getGraphics();
 
 			// Make JButton objects for all the command buttons.
 			JButton rectButton = new JButton("Rectangle");
@@ -570,6 +570,7 @@ public class Main extends JApplet   {
 			public void paint(Graphics g) {
 				super.paint(g); // execute the paint method of JPanel
 				dwg.draw(g); // have the drawing draw itself
+				//g.drawImage(bi, 0,0,this);
 			}
 
 			// When the mouse is clicked, call the executeClick method of the

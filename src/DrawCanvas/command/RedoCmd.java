@@ -10,11 +10,13 @@ public class RedoCmd extends Command{
 	Shape g;
 	public void executeClick(Point p, Drawing dwg) {
 		//System.out.println(undo.undolist);
-		g = undo.undolist.get(0);
-       if(g!=null) {
+		if(undo.undolist.size() > 0) {
+			g = undo.undolist.get(0);
+			if(g!=null) {
 			dwg.list.add(g);
 			//System.out.println(dwg.list);
 			undo.undolist.remove(g);	
+			}
 		}
 	}
 }
