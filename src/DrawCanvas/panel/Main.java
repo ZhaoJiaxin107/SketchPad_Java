@@ -48,6 +48,7 @@ import DrawCanvas.command.EmptyCmd;
 import DrawCanvas.command.ExchangeCmd;
 import DrawCanvas.command.FrontCmd;
 import DrawCanvas.command.MoveCmd;
+import DrawCanvas.command.PasteCmd;
 import DrawCanvas.command.RedoCmd;
 import DrawCanvas.command.ReshapeCmd;
 import DrawCanvas.command.UndoCmd;
@@ -113,6 +114,7 @@ public class Main extends JApplet   {
 			
 			JButton moveButton = new JButton("Move");
 			JButton deleteButton = new JButton("Delete");
+			JButton pasteButton = new JButton("Paste");
 			JButton frontButton = new JButton("Front");
 			JButton backButton = new JButton("Back");
 			JButton exchangeButton = new JButton("Exchange");
@@ -144,6 +146,7 @@ public class Main extends JApplet   {
 			
 			moveButton.addActionListener(new MoveButtonListener());
 			deleteButton.addActionListener(new DeleteButtonListener());
+			pasteButton.addActionListener(new PasteButtonListener());
 			frontButton.addActionListener(new FrontButtonListener());
 			backButton.addActionListener(new BackButtonListener());
 			exchangeButton.addActionListener(new ExchangeButtonListener());
@@ -187,6 +190,7 @@ public class Main extends JApplet   {
 			editPanel.add(editLabel);
 			moveButton.setBackground(Color.lightGray);
 			deleteButton.setBackground(Color.lightGray);
+			pasteButton.setBackground(Color.lightGray);
 			frontButton.setBackground(Color.lightGray);
 			backButton.setBackground(Color.lightGray);
 			exchangeButton.setBackground(Color.lightGray);
@@ -199,6 +203,7 @@ public class Main extends JApplet   {
 			openButton.setBackground(Color.lightGray);
 			editPanel.add(moveButton);
 			editPanel.add(deleteButton);
+			editPanel.add(pasteButton);
 			editPanel.add(frontButton);
 			editPanel.add(backButton);
 			editPanel.add(exchangeButton);
@@ -408,7 +413,13 @@ public class Main extends JApplet   {
 				repaint();
 			}
 		}
-
+		private class PasteButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent event) {
+				Information.setText("Delet  the  shape.");
+				cmd=new PasteCmd();
+				repaint();
+			}
+		}
 		// What to do when frontButton is pressed.
 		private class FrontButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent event) {
