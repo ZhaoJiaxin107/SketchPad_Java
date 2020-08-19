@@ -133,7 +133,10 @@ public class Main extends JApplet   {
 			JButton blueButton = new JButton("Blue");
 			JButton pinkButton = new JButton("Pink");
 			JButton grayButton = new JButton("Gray");
-			
+			JButton purpleButton = new JButton("Purple");
+			JButton orangeButton = new JButton("Orange");
+			JButton cyanButton = new JButton("Cyan");
+
 		
 			// Add listeners for all the command buttons.
 			rectButton.addActionListener(new RectButtonListener());
@@ -163,7 +166,9 @@ public class Main extends JApplet   {
 			blueButton.addActionListener(new BlueButtonListener());
 			pinkButton.addActionListener(new PinkButtonListener());
 			grayButton.addActionListener(new GrayButtonListener());
-			
+			purpleButton.addActionListener(new PurpleButtonListener());
+			orangeButton.addActionListener(new OrangeButtonListener());
+			cyanButton.addActionListener(new CyanButtonListener());
 			// Shape Panel
 			JPanel shapePanel = new JPanel(); // holds buttons for adding shapes
 			JLabel shapeLabel = new JLabel("Add shape:");
@@ -229,6 +234,9 @@ public class Main extends JApplet   {
 			colorPanel.add(blueButton);
 			colorPanel.add(pinkButton);
 			colorPanel.add(grayButton);
+			colorPanel.add(purpleButton);
+			colorPanel.add(orangeButton);
+			colorPanel.add(cyanButton);
 			
 			//info panel
 			JPanel inforPanel=new JPanel();
@@ -490,7 +498,7 @@ public class Main extends JApplet   {
 		// What to do when blackButton is pressed.
 		private class BlackButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent event) {
-				colorBox.show(Color.black); // show that the new default color is red
+				colorBox.show(Color.black); // show that the new default color is black
 				Information.setText("Set  the  shape's  color  to  black.");
 				dwg.color=Color.black;
 				cmd=new ColorCmd();
@@ -524,7 +532,7 @@ public class Main extends JApplet   {
 		// What to do when yellowButton is pressed.
 		private class YellowButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent event) {
-				colorBox.show(Color.yellow); // show that the new default color is red
+				colorBox.show(Color.yellow); // show that the new default color is yellow
 				Information.setText("Set  the  shape's  color  to  yellow.");
 				dwg.color=Color.yellow;
 				cmd=new ColorCmd();
@@ -544,22 +552,53 @@ public class Main extends JApplet   {
 			}
 		}
 		
-		// What to do when redButton is pressed.
+		// What to do when pinkButton is pressed.
 		private class PinkButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent event) {
-				colorBox.show(Color.pink); // show that the new default color is red
+				colorBox.show(Color.pink); // show that the new default color is pink
 				Information.setText("Set  the  shape's  color  to  pink.");
 				dwg.color=Color.pink;
 				cmd=new ColorCmd();
 				repaint();
 			}  
 		}
-		// What to do when redButton is pressed.
+		// What to do when grayButton is pressed.
 		private class GrayButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent event) {
-				colorBox.show(Color.gray); // show that the new default color is red
+				colorBox.show(Color.gray); // show that the new default color is gray
 				Information.setText("Set  the  shape's  color  to  gray.");
 				dwg.color=Color.gray;
+				cmd=new ColorCmd();
+				repaint();
+			}
+		}
+		
+		// What to do when purpleButton is pressed.
+		private class PurpleButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent event) {
+				colorBox.show(new Color(128,0,128)); // show that the new default color is purple
+				Information.setText("Set  the  shape's  color  to  purple.");
+				dwg.color=new Color(128,0,128);
+				cmd=new ColorCmd();
+				repaint();
+			}
+		}
+		
+		private class OrangeButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent event) {
+				colorBox.show(Color.orange); // show that the new default color is orange
+				Information.setText("Set  the  shape's  color  to  orange.");
+				dwg.color=Color.orange;
+				cmd=new ColorCmd();
+				repaint();
+			}
+		}
+		
+		private class CyanButtonListener implements ActionListener {
+			public void actionPerformed(ActionEvent event) {
+				colorBox.show(Color.cyan); // show that the new default color is orange
+				Information.setText("Set  the  shape's  color  to  cyan.");
+				dwg.color=Color.cyan;
 				cmd=new ColorCmd();
 				repaint();
 			}
