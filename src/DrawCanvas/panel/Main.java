@@ -42,7 +42,7 @@ import DrawCanvas.command.BackCmd;
 import DrawCanvas.command.ColorCmd;
 import DrawCanvas.command.Command;
 import DrawCanvas.command.CopyCmd;
-import DrawCanvas.command.DeleteCmd;
+import DrawCanvas.command.CutCmd;
 import DrawCanvas.command.DrawShape;
 import DrawCanvas.command.EmptyCmd;
 import DrawCanvas.command.ExchangeCmd;
@@ -113,7 +113,7 @@ public class Main extends JApplet   {
 			JButton curveButton = new JButton("Curve");
 			
 			JButton moveButton = new JButton("Move");
-			JButton deleteButton = new JButton("Delete");
+			JButton cutButton = new JButton("Cut");
 			JButton pasteButton = new JButton("Paste");
 			JButton frontButton = new JButton("Front");
 			JButton backButton = new JButton("Back");
@@ -148,7 +148,7 @@ public class Main extends JApplet   {
 			curveButton.addActionListener(new CurveButtonListener());
 			
 			moveButton.addActionListener(new MoveButtonListener());
-			deleteButton.addActionListener(new DeleteButtonListener());
+			cutButton.addActionListener(new CutButtonListener());
 			pasteButton.addActionListener(new PasteButtonListener());
 			frontButton.addActionListener(new FrontButtonListener());
 			backButton.addActionListener(new BackButtonListener());
@@ -194,7 +194,7 @@ public class Main extends JApplet   {
 			editPanel.setLayout(new FlowLayout());
 			editPanel.add(editLabel);
 			moveButton.setBackground(Color.lightGray);
-			deleteButton.setBackground(Color.lightGray);
+			cutButton.setBackground(Color.lightGray);
 			pasteButton.setBackground(Color.lightGray);
 			frontButton.setBackground(Color.lightGray);
 			backButton.setBackground(Color.lightGray);
@@ -207,7 +207,7 @@ public class Main extends JApplet   {
 			saveButton.setBackground(Color.lightGray);
 			openButton.setBackground(Color.lightGray);
 			editPanel.add(moveButton);
-			editPanel.add(deleteButton);
+			editPanel.add(cutButton);
 			editPanel.add(pasteButton);
 			editPanel.add(frontButton);
 			editPanel.add(backButton);
@@ -354,10 +354,10 @@ public class Main extends JApplet   {
 			}
 		}
 
-		// What to do when ovalButton is pressed.
+		// What to do when ellipseButton is pressed.
 		private class OvalButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent event) {
-				Information.setText("Draw  a  oval.");
+				Information.setText("Draw  an oval.");
 				cmd=new DrawShape("Oval");
 				repaint();
 			}
@@ -414,16 +414,16 @@ public class Main extends JApplet   {
 		}
 
 		// What to do when deleteButton is pressed.
-		private class DeleteButtonListener implements ActionListener {
+		private class CutButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent event) {
-				Information.setText("Delet  the  shape.");
-				cmd=new DeleteCmd();
+				Information.setText("Cut  the  shape.");
+				cmd=new CutCmd();
 				repaint();
 			}
 		}
 		private class PasteButtonListener implements ActionListener {
 			public void actionPerformed(ActionEvent event) {
-				Information.setText("Delet  the  shape.");
+				Information.setText("Paste  the  shape.");
 				cmd=new PasteCmd();
 				repaint();
 			}

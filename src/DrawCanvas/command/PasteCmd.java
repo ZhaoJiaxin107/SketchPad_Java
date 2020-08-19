@@ -5,7 +5,7 @@ import java.awt.Point;
 import DrawCanvas.panel.Drawing;
 
 public class PasteCmd extends Command{
-	DeleteCmd dc = new DeleteCmd();
+	CutCmd dc = new CutCmd();
 	
 	public void executeClick(Point p, Drawing dwg) {
 		if(dc.g1!=null) {
