@@ -22,7 +22,7 @@ public class Drawing {
 		for(i = list.size()-1; i>=0;i--) {
 			shape = list.get(i);
 			if(shape.containsPoint(p)) {
-				System.out.println(shape);
+				//System.out.println(shape);
 				break;
 			}
 		}
@@ -33,7 +33,7 @@ public class Drawing {
 	
 	public void add(Shape g){
 		list.add(g);
-		System.out.println(list);
+		//System.out.println(list);
 	}
 	
 	public void draw(Graphics g) {
